@@ -1,0 +1,128 @@
+:root {
+    --bg: #050505;
+    --glass: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --text-dim: #aaa;
+}
+
+/* Reset */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+@media (pointer: fine) {
+    html, body { cursor: none; }
+    a, button, .card { cursor: none !important; }
+}
+
+body { 
+    background-color: var(--bg); 
+    color: white; 
+    font-family: 'Inter', sans-serif; 
+    overflow-x: hidden;
+}
+
+/* THE CURSOR */
+.cursor-follower {
+    position: fixed;
+    top: 0; left: 0;
+    width: 20px; height: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(4px);
+    border: 1px solid white;
+    border-radius: 50%;
+    z-index: 99999;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    display: none;
+}
+
+/* Layout */
+.container { max-width: 1300px; margin: 0 auto; padding: 80px 20px; }
+header { margin-bottom: 60px; text-align: center; }
+header h1 { font-size: clamp(2rem, 5vw, 4rem); font-weight: 700; letter-spacing: -3px; }
+
+/* Bento Grid */
+.bento-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-auto-rows: 240px;
+    gap: 20px;
+}
+
+.card {
+    position: relative;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(15px);
+    border-radius: 32px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card:hover {
+    transform: scale(1.02);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* --- THE COLOR LAYER --- */
+/* We use a pseudo-element to create a glow that sits INSIDE the box */
+.card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    right: 0; bottom: 0;
+    z-index: -1;
+    opacity: 0.2; /* Adjust this for more/less color */
+    transition: opacity 0.4s ease;
+}
+
+.card:hover::after {
+    opacity: 0.4; /* Becomes brighter on hover */
+}
+
+/* Specific Colors for MDS */
+.c-1::after { background: radial-gradient(circle at top right, #6366f1, transparent 70%); } /* Indigo Glow */
+.c-2::after { background: radial-gradient(circle at top right, #ec4899, transparent 70%); } /* Pink Glow */
+.c-3::after { background: radial-gradient(circle at top right, #06b6d4, transparent 70%); } /* Cyan Glow */
+.c-4::after { background: radial-gradient(circle at top right, #f59e0b, transparent 70%); } /* Amber Glow */
+.c-5::after { background: radial-gradient(circle at top right, #10b981, transparent 70%); } /* Emerald Glow */
+
+.card-1 { grid-column: span 8; grid-row: span 2; }
+.card-2 { grid-column: span 4; }
+.card-3 { grid-column: span 4; }
+.card-4 { grid-column: span 4; grid-row: span 2; }
+.card-5 { grid-column: span 8; }
+
+.card h2 { font-size: 1.5rem; margin-bottom: 10px; font-weight: 700; }
+.card p { color: var(--text-dim); font-size: 0.9rem; }
+
+.btn {
+    margin-top: 20px;
+    padding: 12px 28px;
+    background: white;
+    color: black;
+    border-radius: 100px;
+    font-weight: 700;
+    text-decoration: none;
+    width: fit-content;
+    font-size: 0.8rem;
+    transition: transform 0.2s ease;
+}
+
+.btn:hover { transform: scale(1.05); }
+
+/* Ambient Background */
+.glow-bg {
+    position: fixed;
+    width: 60vw; height: 60vw;
+    background: radial-gradient(circle, rgba(255,255,255,0.02) 0%, transparent 70%);
+    z-index: -2;
+    filter: blur(100px);
+}
+
+@media (max-width: 1024px) {
+    .bento-grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
+    .card { grid-column: span 1 !important; grid-row: span 1 !important; min-height: 2
